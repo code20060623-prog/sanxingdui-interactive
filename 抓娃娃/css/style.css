@@ -1,0 +1,470 @@
+/* ============================================================
+   BRONZE RELIC CLAW — 三星堆 · 青铜数码绿抓娃娃机
+   ============================================================ */
+
+:root {
+  --bg: #060e0a;
+  --panel: #0d1812;
+  --panel-2: #11231a;
+  --neon: #2fe09a;
+  --neon-soft: #8cf2c4;
+  --cyan: #37e0d0;
+  --yellow: #e6c15a;
+  --green: #6bffb0;
+  --red: #ff5a4e;
+  --teal: #0f9d8f;
+  --text: #e3f2e8;
+  --muted: #7fa593;
+  --pixel: "Press Start 2P", "Courier New", monospace;
+  --mono: "VT323", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+body {
+  min-height: 100vh;
+  /* 暗绿底 + 微弱扫描线 + 铜绿辉光 */
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(47, 224, 154, 0.14), transparent 60%),
+    radial-gradient(ellipse at 85% 110%, rgba(55, 224, 208, 0.08), transparent 55%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(140, 242, 196, 0.03) 0px,
+      rgba(140, 242, 196, 0.03) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* 屏幕边缘微微闪烁的辉光 */
+.crt-flicker {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.78);
+  animation: flicker 6s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.9; }
+  48% { opacity: 0.9; }
+  50% { opacity: 0.72; }
+  52% { opacity: 0.92; }
+}
+
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 22px 22px 40px;
+}
+
+/* ---------------- 标题 ---------------- */
+.title-block {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.game-title {
+  font-family: var(--pixel);
+  font-size: clamp(20px, 4.2vw, 42px);
+  letter-spacing: 4px;
+  margin: 0;
+  color: var(--neon);
+  text-shadow:
+    0 0 6px rgba(47, 224, 154, 0.9),
+    0 0 22px rgba(47, 224, 154, 0.55),
+    4px 4px 0 #061a12,
+    8px 8px 0 rgba(0, 0, 0, 0.45);
+  animation: titleGlow 2.6s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 6px rgba(47, 224, 154, 0.9),
+      0 0 22px rgba(47, 224, 154, 0.55),
+      4px 4px 0 #061a12,
+      8px 8px 0 rgba(0, 0, 0, 0.45);
+  }
+  50% {
+    text-shadow:
+      0 0 10px rgba(140, 242, 196, 1),
+      0 0 34px rgba(47, 224, 154, 0.8),
+      4px 4px 0 #061a12,
+      8px 8px 0 rgba(0, 0, 0, 0.45);
+  }
+}
+
+.game-sub {
+  font-family: var(--pixel);
+  font-size: clamp(7px, 1.3vw, 11px);
+  color: var(--muted);
+  letter-spacing: 3px;
+  margin: 14px 0 0;
+}
+
+/* ---------------- 主布局 ---------------- */
+.layout {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+}
+
+.cabinet {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.sidebar {
+  flex: 0 0 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------------- 机箱 ---------------- */
+.cabinet-frame {
+  position: relative;
+  border: 4px solid var(--neon);
+  border-radius: 10px;
+  padding: 8px;
+  background: #040a07;
+  box-shadow:
+    0 0 0 2px #0b2a1d,
+    0 0 18px rgba(47, 224, 154, 0.55),
+    0 0 48px rgba(47, 224, 154, 0.25),
+    inset 0 0 26px rgba(47, 224, 154, 0.16);
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  cursor: crosshair;
+  background: #070f0b;
+}
+
+/* ---------------- 遮罩 ---------------- */
+.overlay {
+  position: absolute;
+  inset: 8px;
+  border-radius: 4px;
+  background: rgba(5, 14, 10, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 5;
+  transition: opacity 0.35s ease;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay-box h2 {
+  font-family: var(--pixel);
+  color: var(--yellow);
+  font-size: 20px;
+  margin: 0 0 18px;
+  text-shadow: 3px 3px 0 #20180a;
+}
+
+.blink {
+  animation: blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0.25; }
+}
+
+.overlay-text {
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--text);
+  margin: 0 0 24px;
+}
+
+.cam-error {
+  color: var(--red);
+  font-size: 18px;
+  min-height: 20px;
+  margin: 14px 0 0;
+}
+
+/* ---------------- 卡片 ---------------- */
+.card {
+  background: var(--panel);
+  border: 2px solid #1d3a2b;
+  border-radius: 8px;
+  padding: 14px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-title {
+  font-family: var(--pixel);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--cyan);
+  margin: 0 0 12px;
+  text-shadow: 0 0 8px rgba(55, 224, 208, 0.5);
+}
+
+/* 状态行 */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex: 0 0 14px;
+  background: var(--red);
+  box-shadow: 0 0 10px rgba(255, 90, 78, 0.8);
+}
+
+.dot.on {
+  background: var(--green);
+  box-shadow: 0 0 12px rgba(107, 255, 176, 0.9);
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: 0.55; }
+}
+
+.status-text {
+  font-family: var(--pixel);
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--red);
+}
+
+.status-text.on {
+  color: var(--green);
+}
+
+/* 模式 chips */
+.chips {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chip {
+  font-family: var(--pixel);
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 11px 8px;
+  border: 2px solid #264737;
+  border-radius: 4px;
+  color: var(--muted);
+  background: #0a130e;
+  transition: all 0.15s ease;
+}
+
+.chip.active {
+  color: #04120d;
+  background: var(--teal);
+  border-color: #8cf2c4;
+  box-shadow: 0 0 14px rgba(55, 224, 208, 0.7);
+}
+
+.chip.pinch {
+  color: #1d1706;
+  background: var(--yellow);
+  border-color: #f0d98c;
+  box-shadow: 0 0 14px rgba(230, 193, 90, 0.7);
+}
+
+/* 摄像头预览 */
+.cam-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 2px solid #264737;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #040a07;
+}
+
+#cam,
+#handCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 镜像（自拍视角） */
+#cam {
+  transform: scaleX(-1);
+}
+
+.cam-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--muted);
+  background: repeating-linear-gradient(
+    45deg,
+    #08120d,
+    #08120d 10px,
+    #0c1a13 10px,
+    #0c1a13 20px
+  );
+}
+
+.cam-placeholder small {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: #587a68;
+}
+
+.cam-placeholder.hide {
+  display: none;
+}
+
+/* 玩法列表 */
+.how-list {
+  margin: 0 0 14px;
+  padding-left: 18px;
+  font-size: 19px;
+  line-height: 1.5;
+  color: #b8d4c4;
+}
+
+.how-list li {
+  margin-bottom: 4px;
+}
+
+.how-list b {
+  color: var(--yellow);
+}
+
+/* ---------------- 按钮 ---------------- */
+.btn-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.btn {
+  font-family: var(--pixel);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+  border-radius: 4px;
+  padding: 12px 10px;
+  cursor: pointer;
+  flex: 1;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+  transition: transform 0.08s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:hover {
+  filter: brightness(1.15);
+}
+
+.btn:active {
+  transform: translateY(2px);
+}
+
+.btn.blue {
+  background: var(--teal);
+  box-shadow: 0 4px 0 #0a5f56, 0 0 14px rgba(55, 224, 208, 0.5);
+}
+
+.btn.red {
+  background: var(--red);
+  box-shadow: 0 4px 0 #8c241c, 0 0 14px rgba(255, 90, 78, 0.45);
+}
+
+.btn.pink {
+  background: var(--neon);
+  color: #04120d;
+  box-shadow: 0 4px 0 #15805a, 0 0 16px rgba(47, 224, 154, 0.6);
+}
+
+.btn.ghost {
+  background: transparent;
+  border-color: var(--cyan);
+  color: var(--cyan);
+  margin-top: 14px;
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.btn.big {
+  display: block;
+  width: 100%;
+  padding: 16px 14px;
+  font-size: 11px;
+}
+
+.btn.tiny {
+  font-size: 8px;
+  padding: 9px;
+}
+
+.btn.full {
+  width: 100%;
+  flex: none;
+  background: #16281e;
+  box-shadow: none;
+}
+
+/* ---------------- 页脚 ---------------- */
+.foot {
+  text-align: center;
+  margin-top: 26px;
+  font-size: 16px;
+  color: #4a6b58;
+  letter-spacing: 1px;
+}
+
+/* ---------------- 响应式 ---------------- */
+@media (max-width: 980px) {
+  .layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+  .cam-wrap {
+    max-width: 360px;
+  }
+}

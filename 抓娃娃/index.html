@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bronze Relic Claw — 三星堆青铜数码抓娃娃机</title>
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%95%B9%EF%B8%8F%3C/text%3E%3C/svg%3E"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="crt-flicker"></div>
+
+  <div class="app">
+    <header class="title-block">
+      <h1 class="game-title" data-text="BRONZE RELIC CLAW">BRONZE RELIC CLAW</h1>
+      <p class="game-sub">三星堆 · BRONZE DIGITAL RELICS · MEDIAPIPE HAND TRACKING</p>
+    </header>
+
+    <main class="layout">
+      <!-- ===================== 游戏机箱 ===================== -->
+      <section class="cabinet">
+        <div class="cabinet-frame">
+          <canvas id="game" width="900" height="640" aria-label="claw machine game"></canvas>
+
+          <!-- 开始遮罩 -->
+          <div id="startOverlay" class="overlay">
+            <div class="overlay-box">
+              <h2 class="blink">READY PLAYER ONE</h2>
+              <p class="overlay-text">
+                摄像头手势控制 · 食指移动 · 捏合下爪<br />
+                （没有摄像头也可用鼠标 / 触屏游玩）
+              </p>
+              <button id="startBtn" class="btn pink big">▶ ENABLE CAMERA &amp; START</button>
+              <button id="mouseBtn" class="btn ghost">MOUSE / TOUCH MODE</button>
+              <p id="camError" class="cam-error"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 右侧控制面板 ===================== -->
+      <aside class="sidebar">
+        <!-- 传感器状态 -->
+        <div class="card">
+          <h3 class="card-title">SENSOR STATUS</h3>
+          <div class="status-row">
+            <span id="statusDot" class="dot off"></span>
+            <span id="statusText" class="status-text">HAND TRACKING OFFLINE</span>
+          </div>
+          <div class="chips">
+            <div id="chipMove" class="chip">✋ MOVE LEFT / RIGHT</div>
+            <div id="chipPinch" class="chip">🤏 PINCH TO GRAB</div>
+          </div>
+        </div>
+
+        <!-- 手部预览 -->
+        <div class="card">
+          <h3 class="card-title">HAND PREVIEW</h3>
+          <div class="cam-wrap">
+            <video id="cam" playsinline muted></video>
+            <canvas id="handCanvas"></canvas>
+            <div id="camPlaceholder" class="cam-placeholder">
+              <span>NO CAMERA</span>
+              <small>move mouse / touch to play</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- 玩法说明 -->
+        <div class="card">
+          <h3 class="card-title">HOW TO PLAY:</h3>
+          <ul class="how-list">
+            <li>Allow camera access.</li>
+            <li>Stand back so your hand is visible.</li>
+            <li>Use your <b>Index Finger</b> to move the claw.</li>
+            <li>Pinch <b>thumb &amp; index</b> finger to drop the claw.</li>
+            <li>Collect Sanxingdui bronze relics to score!</li>
+          </ul>
+          <div class="btn-row">
+            <button id="shuffleBtn" class="btn blue">SHUFFLE</button>
+            <button id="resetBtn" class="btn red">RESET</button>
+          </div>
+          <button id="muteBtn" class="btn tiny full">🔊 SOUND ON</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="foot">
+      <span>BRONZE RELIC CLAW · hand / mouse controlled Sanxingdui arcade</span>
+    </footer>
+  </div>
+
+  <!-- MediaPipe Hands（经典版，CDN 全局变量） -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js" crossorigin="anonymous"></script>
+
+  <!-- 本地脚本（按依赖顺序加载） -->
+  <script src="js/sprites.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/handtracking.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

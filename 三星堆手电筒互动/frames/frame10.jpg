@@ -1,0 +1,1 @@
+{"apiversion":"v1","requestId":"202610191628387D24D5099529664722EA","code":"SignatureDoesNotMatch","message":"The request signature we calculated does not match the signature you provided. Check your key and signing method."}

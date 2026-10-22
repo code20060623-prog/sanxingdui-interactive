@@ -1,0 +1,6 @@
+﻿_pylibs/
+__MACOSX/
+.DS_Store
+Thumbs.db
+_deploy/
+*.log
