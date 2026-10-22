@@ -12,7 +12,7 @@ with open(html_path, "r", encoding="utf-8") as f:
 old1 = "let prevFist = false, fistCooldown = 0, tipHistory = [];\n"
 new1 = (old1 +
         "let prevPeace = false, peaceCooldown = 0;\n"
-        "const GAME_URL = '../../ai-pixel-claw/index.html';\n")
+        "const GAME_URL = location.protocol === 'file:' ? '../抓娃娃/index.html' : 'https://sanxingdui-claw.pages.dev';\n")
 assert old1 in html, "锚点1未找到"
 html = html.replace(old1, new1, 1)
 
