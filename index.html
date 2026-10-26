@@ -387,7 +387,7 @@ fileInput.addEventListener('change', () => {
 let hands = null, gestureOn = false, camStream = null, sending = false;
 let prevFist = false, fistCooldown = 0, tipHistory = [];
 let prevPeace = false, peaceCooldown = 0;
-const GAME_URL = location.protocol === 'file:' ? '../抓娃娃/index.html' : 'https://sanxingdui-claw.pages.dev';
+const GAME_URL = location.protocol === 'file:' ? '抓娃娃.html' : 'https://sanxingdui-claw.pages.dev';
 function mpDist(a, b) {
   const dx = a.x - b.x, dy = a.y - b.y, dz = (a.z || 0) - (b.z || 0);
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
@@ -499,7 +499,7 @@ async function startGesture() {
     btnGesture.classList.add('active');
     setLabel(btnGesture, '关闭手势控制');
     detectLoop();
-    toast('食指指向哪里光照向哪里；光圈移到 ENTER 上，握拳即可进入');
+    toast('食指指向哪里光照向哪里；握拳点 ENTER，比✌剪刀手进入抓娃娃机');
   } catch (err) {
     toast('无法访问摄像头，请检查浏览器权限；鼠标/触摸仍可控制');
   }
