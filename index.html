@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>三星堆交互 · Sanxingdui Interactive</title>
+  <style>
+    html, body { margin: 0; padding: 0; min-height: 100vh; }
+    body {
+      background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a14 55%, #05050a 100%);
+      color: #f5e6c8;
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px 16px;
+    }
+    .wrap { max-width: 760px; width: 100%; text-align: center; }
+    h1 { font-size: clamp(2rem, 7vw, 3.2rem); margin: 0 0 8px; letter-spacing: 0.08em; }
+    .sub { opacity: 0.75; margin: 0 0 36px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+    .card {
+      display: block; text-decoration: none; color: inherit;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(245,230,200,0.25);
+      border-radius: 16px; padding: 26px 18px; transition: transform .2s, border-color .2s, background .2s;
+    }
+    .card:hover { transform: translateY(-4px); border-color: rgba(245,230,200,0.6); background: rgba(255,255,255,0.09); }
+    .card .icon { font-size: 2.4rem; margin-bottom: 10px; }
+    .card h2 { font-size: 1.15rem; margin: 0 0 6px; }
+    .card p { margin: 0; font-size: 0.85rem; opacity: 0.65; line-height: 1.6; }
+    .foot { margin-top: 34px; font-size: 0.8rem; opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>三星堆交互</h1>
+    <p class="sub">Sanxingdui Interactive · 三个手势互动作品</p>
+    <div class="grid">
+      <a class="card" href="三星堆手电筒.html" target="_blank">
+        <div class="icon">🔦</div>
+        <h2>三星堆手电筒互动</h2>
+        <p>用身体姿态点亮三星堆文物，探索神秘青铜世界</p>
+      </a>
+      <a class="card" href="抓娃娃.html" target="_blank">
+        <div class="icon">🕹️</div>
+        <h2>抓娃娃</h2>
+        <p>手势控制的抓娃娃机，把三星堆萌物带回家</p>
+      </a>
+      <a class="card" href="赛博三星堆跑酷.html" target="_blank">
+        <div class="icon">🏃</div>
+        <h2>赛博三星堆跑酷</h2>
+        <p>赛博朋克风格三星堆跑酷，躲避障碍一路冲刺</p>
+      </a>
+    </div>
+    <div class="foot">Sanxingdui Interactive Works</div>
+  </div>
+</body>
+</html>
