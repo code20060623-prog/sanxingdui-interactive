@@ -387,7 +387,7 @@ fileInput.addEventListener('change', () => {
 let hands = null, gestureOn = false, camStream = null, sending = false;
 let prevFist = false, fistCooldown = 0, tipHistory = [];
 let prevPeace = false, peaceCooldown = 0;
-const GAME_URL = location.protocol === 'file:' ? '抓娃娃.html' : 'https://sanxingdui-claw.pages.dev';
+const GAME_URL = '抓娃娃.html';
 function mpDist(a, b) {
   const dx = a.x - b.x, dy = a.y - b.y, dz = (a.z || 0) - (b.z || 0);
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
